@@ -4,6 +4,13 @@ import java.util.HashSet;
 
 public class Solution {
     public static boolean containsDuplicate(int[] nums) {
-       // implement your code
+        HashSet<Integer> seen = new HashSet<>();
+        for (int num : nums) {
+            if (seen.contains(num)) {
+                return true;
+            }
+            seen.add(num);
+        }
+        return false;
     }
 }
