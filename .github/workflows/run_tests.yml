@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Ensure previous commit is available
+          fetch-depth: 2
 
       - name: Install Dependencies
         run: |
@@ -39,18 +39,23 @@ jobs:
             exit 1
           fi
 
-          echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
+          echo "$CHANGED_FILES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Determine File Type
         id: determine-language
         run: |
-          if echo "$CHANGED_FILES" | grep -qE 'solutions/.*\\.c$'; then
+          echo "Checking for language based on changes:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -qE "solutions/.*\\.c$"; then
             echo "language=C" >> $GITHUB_ENV
-          elif echo "$CHANGED_FILES" | grep -qE 'solutions/.*\\.cpp$'; then
+          elif echo "$CHANGED_FILES" | grep -qE "solutions/.*\\.cpp$"; then
             echo "language=C++" >> $GITHUB_ENV
-          elif echo "$CHANGED_FILES" | grep -qE 'solutions/.*\\.py$'; then
+          elif echo "$CHANGED_FILES" | grep -qE "solutions/.*\\.py$"; then
             echo "language=Python" >> $GITHUB_ENV
-          elif echo "$CHANGED_FILES" | grep -qE 'solutions/.*\\.java$'; then
+          elif echo "$CHANGED_FILES" | grep -qE "solutions/.*\\.java$"; then
             echo "language=Java" >> $GITHUB_ENV
           else
             echo "No recognized source file changes. Exiting..."
