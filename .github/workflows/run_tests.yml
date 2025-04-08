@@ -81,8 +81,11 @@ jobs:
           echo "Executing Python script: $PYTHON_FILE"
           # python3 "$PYTHON_FILE" < tests/test.py
           python -m tests.test
-      - name: Compile and Run Java Program
+      - name: Run Java Tests
         if: ${{ env.language == 'Java' }}
         run: |
-          javac -d . solutions/.java tests/.java  # Compile all Java files
-          java -cp . tests.Test  # Ensure correct package path
+          if ls tests/Test.java 1> /dev/null 2>&1; then
+            javac -d . solutions/*.java tests/*.java && java tests.Test
+          else
+            echo "Java test file not found."
+          fi
