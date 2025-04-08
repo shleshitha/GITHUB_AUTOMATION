@@ -11,6 +11,7 @@ bool containsDuplicate(int *nums, int numsSize) {
 
     // Sort the array
     qsort(nums, numsSize, sizeof(int), compare);
+    
 
     // Check adjacent elements for duplicates
     for (int i = 1; i < numsSize; i++) {
