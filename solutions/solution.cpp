@@ -13,7 +13,6 @@ public:
             }
             seen.insert(num);
         }
-        return false; // No duplicates
-        
+        return false; // No duplicate
     }
 };
